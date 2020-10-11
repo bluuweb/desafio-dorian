@@ -1,4 +1,6 @@
-const banderas = document.querySelector('#banderas')
+const query = new URLSearchParams(window.location.search)
+const params = query.get('name')
+console.log(params)
 
 document.addEventListener("DOMContentLoaded", function(event) {
     console.log("DOM fully loaded and parsed");
@@ -7,24 +9,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 const fetchData = async () => {
     try {
-        const res = await fetch('api.json')
+        const res = await fetch(`https://restcountries.eu/rest/v2/name/${params}`)
         const data = await res.json()
+        console.log(data)
         banderillas(data)
-        filtrarDatos(data)
-        formularioReal(data)
+        // filtrarDatos(data)
+        // formularioReal(data)
     } catch (error) {
         console.log(error)
     }
 }
 
+const bandera = document.getElementById('bandera')
+
 const banderillas = (data) => {
-
     let elementos = ''
-
     for (let [index, item] of data.entries()){
         if (index < 7) {
             // console.log(item)
-            elementos += `
+            elementos += /*html*/`
             <div>
                 <img src="${item.flag}" alt="" width="100">
                 <h3>${item.name}</h3>
@@ -35,8 +38,5 @@ const banderillas = (data) => {
             `
         }
     }
-
-    banderas.innerHTML = elementos
-
+    bandera.innerHTML = elementos
 }
-
